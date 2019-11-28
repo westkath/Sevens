@@ -1,10 +1,13 @@
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class DeckTest extends TestCase {
 
-    Deck deck = new Deck(3);
+    int numPlayers = 5;
+    Deck deck = new Deck(numPlayers);
 
     @Override
     protected void setUp() {
@@ -21,7 +24,6 @@ public class DeckTest extends TestCase {
         String[] expectedCards = {"CA", "SA", "HA", "DA"};
 
         boolean matching = true;
-
         for (int i=0; i<4; i++) {
             if (!(expectedCards[i].equals(deckCards[i])))
                 matching = false;
@@ -39,15 +41,23 @@ public class DeckTest extends TestCase {
     }
 
     public void testNumCardsPerPerson() {
-        int expectedCardsPerPerson = 17;
-        int cardsPerPerson = deck.getCardsInHand(0);
+        deck.dealAllCards();
+        int expectedCardsPerPerson = 52 / numPlayers;
+        int cardsPerPerson = deck.getPlayerHand(0).size();
         boolean equalCards = cardsPerPerson >= expectedCardsPerPerson;
 
         assertTrue(equalCards);
     }
 
     public void testAllCardsDealt() {
-        //
+        deck.dealAllCards();
+
+        int totalCards = 0;
+        for (int i=0; i<numPlayers; i++) {
+            totalCards += deck.getPlayerHand(i).size();
+        }
+
+        assertEquals(52, totalCards);
     }
 
     @Override

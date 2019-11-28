@@ -1,0 +1,59 @@
+import junit.framework.TestCase;
+
+import static org.junit.Assert.*;
+
+public class DeckTest extends TestCase {
+
+    Deck deck = new Deck(3);
+
+    @Override
+    protected void setUp() {
+        System.out.println("Starting up Deck Test Case!");
+        // create object instance
+    }
+
+    public void testDeckSize() {
+        assertEquals(52, deck.getDeckSize());
+    }
+
+    public void testFourSuitsPresent() {
+        String[] deckCards = {deck.getCard(0), deck.getCard(13), deck.getCard(26), deck.getCard(39)};
+        String[] expectedCards = {"CA", "SA", "HA", "DA"};
+
+        boolean matching = true;
+
+        for (int i=0; i<4; i++) {
+            if (!(expectedCards[i].equals(deckCards[i])))
+                matching = false;
+        }
+
+        assertTrue(matching);
+    }
+
+    public void testDeckIsShuffled() {
+        String[] originalDeck = deck.getDeck();
+        deck.shuffle();
+        String[] shuffledDeck = deck.getDeck();
+
+        assertNotEquals(shuffledDeck, originalDeck);
+    }
+
+    public void testNumCardsPerPerson() {
+        int expectedCardsPerPerson = 17;
+        int cardsPerPerson = deck.getCardsInHand(0);
+        boolean equalCards = cardsPerPerson >= expectedCardsPerPerson;
+
+        assertTrue(equalCards);
+    }
+
+    public void testAllCardsDealt() {
+        //
+    }
+
+    @Override
+    protected void tearDown() {
+        System.out.println("Shutting down Deck Test Case!");
+        // remove object instances
+    }
+
+}

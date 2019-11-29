@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2716410b-82c5-4c13-baea-b8c9a433576f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Deck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/RockPaperScissor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/DeckTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DeckTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/RockPaperScissorTest.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -62,6 +60,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Sevens" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Sevens" />
+      <module name="testing" />
+      <option name="PROGRAM_PARAMETERS" value="3" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DeckTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testing" />
       <option name="PACKAGE_NAME" value="" />
@@ -84,12 +90,14 @@
     <list>
       <item itemvalue="Application.RockPaperScissor" />
       <item itemvalue="Application.Deck" />
+      <item itemvalue="Application.Sevens" />
       <item itemvalue="JUnit.DeckTest" />
       <item itemvalue="JUnit.DeckTest.testAllCardsDealt" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.DeckTest" />
+        <item itemvalue="Application.Sevens" />
         <item itemvalue="Application.Deck" />
         <item itemvalue="JUnit.DeckTest.testAllCardsDealt" />
         <item itemvalue="Application.RockPaperScissor" />

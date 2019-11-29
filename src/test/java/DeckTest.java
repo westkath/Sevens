@@ -1,18 +1,16 @@
 import junit.framework.TestCase;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
 public class DeckTest extends TestCase {
 
     int numPlayers = 5;
-    Deck deck = new Deck(numPlayers);
+    Deck deck;
 
     @Override
     protected void setUp() {
         System.out.println("Starting up Deck Test Case!");
-        // create object instance
+        deck = new Deck(numPlayers);
     }
 
     public void testDeckSize() {
@@ -60,10 +58,22 @@ public class DeckTest extends TestCase {
         assertEquals(52, totalCards);
     }
 
+    public void testSetNumberCardsDealt() {
+        deck.dealSetNumberCards(5);
+
+        int expectedTotal = 5 * numPlayers;
+        int totalCards = 0;
+        for (int i=0; i<numPlayers; i++) {
+            totalCards += deck.getPlayerHand(i).size();
+        }
+
+        assertEquals(expectedTotal, totalCards);
+    }
+
     @Override
     protected void tearDown() {
         System.out.println("Shutting down Deck Test Case!");
-        // remove object instances
+        deck = null;
     }
 
 }

@@ -32,7 +32,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>sevens</mainClass>
+                                    <mainClass>TestingMain</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

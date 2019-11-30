@@ -1,3 +1,8 @@
+package sevens;
+
+import utils.ConsoleColors;
+import utils.Deck;
+
 import java.util.*;
 
 public class Game {
@@ -6,15 +11,15 @@ public class Game {
     private ArrayList<LinkedList<String>> playerHands = new ArrayList<>();
     private Map<String, LinkedList<String>> suitPiles = new HashMap<>();
     private String separator = ConsoleColors.BLUE_BOLD + "=============================== " + ConsoleColors.BLUE_BOLD_BRIGHT
-            + "[Sevens]" + ConsoleColors.BLUE_BOLD + " ===============================" + ConsoleColors.RESET;
+            + "[sevens.Sevens]" + ConsoleColors.BLUE_BOLD + " ===============================" + ConsoleColors.RESET;
 
     public Game(int numPlayers) {
         if (numPlayers <= 52 && numPlayers >= 1)
             this.numPlayers = numPlayers;
         else {
             System.out.println(ConsoleColors.RED_BOLD_BRIGHT + numPlayers + ConsoleColors.RESET +
-                    " is an invalid number of players to have! Exiting Game");
-            throw new IllegalArgumentException(numPlayers + " is an invalid number of players to have! Exiting Game");
+                    " is an invalid number of players to have! Exiting sevens.Game");
+            throw new IllegalArgumentException(numPlayers + " is an invalid number of players to have! Exiting sevens.Game");
         }
     }
 
@@ -32,7 +37,7 @@ public class Game {
         int currentPlayer = whoHasFirstSeven();
 
         showSeparator();
-        System.out.println("Welcome to " + ConsoleColors.PURPLE_BOLD_BRIGHT + "Sevens!" + ConsoleColors.RESET);
+        System.out.println("Welcome to " + ConsoleColors.PURPLE_BOLD_BRIGHT + "sevens.Sevens!" + ConsoleColors.RESET);
         showSeparator();
         System.out.println();
 
@@ -63,7 +68,7 @@ public class Game {
         }
 
         showSeparator();
-        System.out.println("Game Over! Player " + ConsoleColors.PURPLE_BOLD_BRIGHT + (currentPlayer) +
+        System.out.println("sevens.Game Over! Player " + ConsoleColors.PURPLE_BOLD_BRIGHT + (currentPlayer) +
                 ConsoleColors.RESET + " has won the game!");
         showSeparator();
     }
@@ -73,7 +78,7 @@ public class Game {
         boolean hasPlayed = false;
 
         System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (firstPlayer+1) + ": " + ConsoleColors.RESET
-                + "Play a Seven to Start the Game!");
+                + "Play a Seven to Start the sevens.Game!");
         System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Hand: " + ConsoleColors.RESET + firstHand);
 
         String card = input.nextLine();
@@ -86,7 +91,7 @@ public class Game {
                 addSevenToPile(card, getSuitByString(suit));
             } else {
                 System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (firstPlayer+1) + ": " + ConsoleColors.RESET +
-                        "Play a Seven to " + "Start the Game - " + ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET
+                        "Play a Seven to " + "Start the sevens.Game - " + ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET
                         + " is not a seven...");
                 System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Hand: " + ConsoleColors.RESET + firstHand);
                 card = input.nextLine();
@@ -101,7 +106,7 @@ public class Game {
         boolean hasPlayed = false;
 
         System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " + ConsoleColors.RESET +
-                "Play a Card to Play the Game! Or Say Skip to Miss a Turn!");
+                "Play a Card to Play the sevens.Game! Or Say Skip to Miss a Turn!");
         System.out.println("Current Hand: " + hand);
         String card = input.nextLine();
         String suitChar = String.valueOf(card.charAt(0));
@@ -126,7 +131,7 @@ public class Game {
             } else {
                 System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " +
                         ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET + " cannot be played. " +
-                        "Play a Card to Play the Game! Or Say Skip to Miss a Turn!");
+                        "Play a Card to Play the sevens.Game! Or Say Skip to Miss a Turn!");
                 System.out.println("Current Hand: " + hand);
                 card = input.nextLine();
             }

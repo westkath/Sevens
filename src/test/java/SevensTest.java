@@ -1,20 +1,21 @@
 import junit.framework.TestCase;
 import org.junit.Test;
+import sevens.Game;
 
-public class GameTest extends TestCase {
+public class SevensTest extends TestCase {
 
     Game game;
     int numPlayers = 5;
 
     @Override
     protected void setUp() {
-        System.out.println("Starting up Game Test Case!");
+        System.out.println("Starting up sevens.Game Test Case!");
         game = new Game(numPlayers);
     }
 
     @Test
     public void testIllegalArgumentExceptionThrown() {
-        String expectedMessage = 53 + " is an invalid number of players to have! Exiting Game";
+        String expectedMessage = 53 + " is an invalid number of players to have! Exiting sevens.Game";
         try {
             game = new Game(53);
         } catch (IllegalArgumentException exception) {
@@ -117,7 +118,7 @@ public class GameTest extends TestCase {
 
     @Override
     protected void tearDown() {
-        System.out.println("Shutting down Game Test Case!");
+        System.out.println("Shutting down sevens.Game Test Case!");
         game = null;
     }
 

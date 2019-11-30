@@ -1,3 +1,5 @@
+package utils;
+
 public class NotEnoughCardsException extends Exception {
 
     public NotEnoughCardsException(String errorMessage) {

@@ -1,5 +1,7 @@
 import junit.framework.TestCase;
 import org.junit.Test;
+import utils.Deck;
+import utils.NotEnoughCardsException;
 
 public class DeckTest extends TestCase {
 
@@ -8,7 +10,7 @@ public class DeckTest extends TestCase {
 
     @Override
     protected void setUp() {
-        System.out.println("Starting up Deck Test Case!");
+        System.out.println("Starting up utils.Deck Test Case!");
         deck = new Deck(numPlayers);
     }
 
@@ -92,7 +94,7 @@ public class DeckTest extends TestCase {
 
     @Override
     protected void tearDown() {
-        System.out.println("Shutting down Deck Test Case!");
+        System.out.println("Shutting down utils.Deck Test Case!");
         deck = null;
     }
 

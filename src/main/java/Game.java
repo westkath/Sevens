@@ -5,10 +5,17 @@ public class Game {
     private int numPlayers;
     private ArrayList<LinkedList<String>> playerHands = new ArrayList<>();
     private Map<String, LinkedList<String>> suitPiles = new HashMap<>();
+    private String separator = ConsoleColors.BLUE_BOLD + "=============================== " + ConsoleColors.BLUE_BOLD_BRIGHT
+            + "[Sevens]" + ConsoleColors.BLUE_BOLD + " ===============================" + ConsoleColors.RESET;
 
     public Game(int numPlayers) {
-        this.numPlayers = numPlayers;
-        initialise();
+        if (numPlayers <= 52 && numPlayers >= 1)
+            this.numPlayers = numPlayers;
+        else {
+            System.out.println(ConsoleColors.RED_BOLD_BRIGHT + numPlayers + ConsoleColors.RESET +
+                    " is an invalid number of players to have! Exiting Game");
+            throw new IllegalArgumentException(numPlayers + " is an invalid number of players to have! Exiting Game");
+        }
     }
 
     public void initialise() {
@@ -22,34 +29,110 @@ public class Game {
     }
 
     public void playGame() {
-        // Prompt Player to Play the Game
         int currentPlayer = whoHasFirstSeven();
 
-        String playedCard = runFirstTurn(currentPlayer, playerHands.get(currentPlayer)); // string formatting here
-        System.out.println("Current Piles:");
-        System.out.println(suitPiles.toString());
+        showSeparator();
+        System.out.println("Welcome to " + ConsoleColors.PURPLE_BOLD_BRIGHT + "Sevens!" + ConsoleColors.RESET);
+        showSeparator();
+        System.out.println();
 
-        playerHands.get(currentPlayer).remove(playedCard);
+        showSeparator();
+        String playedCard = runFirstTurn(currentPlayer, playerHands.get(currentPlayer));
+        outputPiles();
+        showSeparator();
+        System.out.println();
 
+        removePlayerCard(playedCard, currentPlayer);
         currentPlayer = getNextPlayer(currentPlayer);
 
-        // Run the Game for Each Turn
         while (!isGameOver()) {
+            System.out.println(separator);
             String card = runTurn(currentPlayer, playerHands.get(currentPlayer));
 
             if (card.equals("skip")) {
-                System.out.println("Player " + (currentPlayer+1) + " has skipped a turn!");
+                System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (currentPlayer+1) +
+                        ConsoleColors.RESET + " has skipped a turn!");
             } else {
                 playerHands.get(currentPlayer).remove(card);
             }
 
             currentPlayer = getNextPlayer(currentPlayer);
-
-            System.out.println("Current Piles:");
-            System.out.println(suitPiles.toString());
+            outputPiles();
+            showSeparator();
+            System.out.println();
         }
 
-        System.out.println("Game Over! Player " + (currentPlayer) + " has won the game!");
+        showSeparator();
+        System.out.println("Game Over! Player " + ConsoleColors.PURPLE_BOLD_BRIGHT + (currentPlayer) +
+                ConsoleColors.RESET + " has won the game!");
+        showSeparator();
+    }
+
+    private String runFirstTurn(int firstPlayer, LinkedList<String> firstHand) {
+        Scanner input = new Scanner(System.in);
+        boolean hasPlayed = false;
+
+        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (firstPlayer+1) + ": " + ConsoleColors.RESET
+                + "Play a Seven to Start the Game!");
+        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Hand: " + ConsoleColors.RESET + firstHand);
+
+        String card = input.nextLine();
+        String suit = String.valueOf(card.charAt(0));
+
+        while (!hasPlayed) {
+            if (firstHand.contains(card) && (card.equals("C7") || card.equals("D7") || card.equals("S7") || card.equals("H7"))) {
+                hasPlayed = true;
+                playCard(card, firstPlayer);
+                addSevenToPile(card, getSuitByString(suit));
+            } else {
+                System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (firstPlayer+1) + ": " + ConsoleColors.RESET +
+                        "Play a Seven to " + "Start the Game - " + ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET
+                        + " is not a seven...");
+                System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Hand: " + ConsoleColors.RESET + firstHand);
+                card = input.nextLine();
+            }
+        }
+
+        return card;
+    }
+
+    private String runTurn(int player, LinkedList<String> hand) {
+        Scanner input = new Scanner(System.in);
+        boolean hasPlayed = false;
+
+        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " + ConsoleColors.RESET +
+                "Play a Card to Play the Game! Or Say Skip to Miss a Turn!");
+        System.out.println("Current Hand: " + hand);
+        String card = input.nextLine();
+        String suitChar = String.valueOf(card.charAt(0));
+        String number = String.valueOf(card.charAt(1));
+
+        while (!hasPlayed) {
+            if (card.equalsIgnoreCase("skip")) {
+                return card;
+            } else if (!isCardValid(card)) {
+                System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " + ConsoleColors.RESET +
+                        ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET + " is not a valid card. Enter one!");
+                System.out.println("Current Hand: " + hand);
+                card = input.nextLine();
+            } else if (hand.contains(card) && (isValidMove(card, hand))) {
+                hasPlayed = true;
+                playCard(card, player);
+                if (number.equals("7")) {
+                    addSevenToPile(card, getSuitByString(suitChar));
+                } else {
+                    addCardToPile(card, getSuitByString(suitChar));
+                }
+            } else {
+                System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " +
+                        ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET + " cannot be played. " +
+                        "Play a Card to Play the Game! Or Say Skip to Miss a Turn!");
+                System.out.println("Current Hand: " + hand);
+                card = input.nextLine();
+            }
+        }
+
+        return card;
     }
 
     private int whoHasFirstSeven() {
@@ -68,74 +151,6 @@ public class Game {
         return player;
     }
 
-    private boolean isGameOver() {
-        boolean isOver = false;
-        for (int i=0; i<numPlayers; i++) {
-            if (playerHands.get(i).size() == 0) {
-                isOver = true;
-            }
-        }
-        return isOver;
-    }
-
-    private String runFirstTurn(int firstPlayer, LinkedList<String> firstHand) {
-        Scanner input = new Scanner(System.in);
-        boolean hasPlayed = false;
-
-        System.out.println("Player " + (firstPlayer+1) + ": Play a Seven to Start the Game!");
-        System.out.println("Current Hand: " + firstHand);
-        String card = input.nextLine();
-
-        while (!hasPlayed) {
-            if (firstHand.contains(card) && (
-                    card.equals("C7") || card.equals("D7") ||
-                    card.equals("S7") || card.equals("H7"))) {
-                System.out.println("Card Played: " + card);
-                hasPlayed = true;
-                firstHand.remove(card);
-                addSevenToPile(card, getSuitByString(String.valueOf(card.charAt(0))));
-            } else {
-                System.out.println("Player " + (firstPlayer+1) + ": Play a Seven to Start the Game!");
-                System.out.println("Current Hand: " + firstHand);
-                card = input.nextLine();
-            }
-        }
-
-        return card;
-    }
-
-    private String runTurn(int player, LinkedList<String> hand) {
-        Scanner input = new Scanner(System.in);
-        boolean hasPlayed = false;
-
-        System.out.println("Player " + (player+1) + ": Play a Card to Play the Game! Or Say Skip to Miss a Turn!");
-        System.out.println("Current Hand: " + hand);
-        String card = input.nextLine();
-        String suitChar = String.valueOf(card.charAt(0));
-        String number = String.valueOf(card.charAt(1));
-
-        while (!hasPlayed) {
-            if (card.equalsIgnoreCase("skip")) {
-                return card;
-            } else if (hand.contains(card) && (isValidMove(card, hand))) {
-                System.out.println("Card Played: " + card);
-                hasPlayed = true;
-                hand.remove(card);
-                if (number.equals("7")) {
-                    addSevenToPile(card, getSuitByString(suitChar));
-                } else {
-                    addCardToPile(card, getSuitByString(suitChar));
-                }
-            } else {
-                System.out.println("Player " + (player+1) + ": Play a Card to Play the Game! Or Say Skip to Miss a Turn!");
-                System.out.println("Current Hand: " + hand);
-                card = input.nextLine();
-            }
-        }
-
-        return card;
-    }
-
     private boolean isValidMove(String card, LinkedList<String> hand) {
         boolean validMove = false;
         String suitChar = String.valueOf(card.charAt(0));
@@ -146,13 +161,13 @@ public class Game {
         if (number.equals("7")) {
             validMove = true;
         } else if (suitPiles.containsKey(suit)){
-            validMove = checkAboveAndBelow(suit, stringValueToInt(number)); // changed here test X functionality before meaningful messages todo
+            validMove = checkAboveAndBelow(suit, stringValueToInt(number));
         }
 
         return validMove;
     }
 
-    private boolean checkAboveAndBelow(String suit, int number) {
+    public boolean checkAboveAndBelow(String suit, int number) {
         boolean isValid = false;
 
         LinkedList<String> tempPile = suitPiles.get(suit);
@@ -166,7 +181,7 @@ public class Game {
         return isValid;
     }
 
-    private void addSevenToPile(String card, String suit) {
+    public void addSevenToPile(String card, String suit) {
         if (suitPiles.get(suit) != null) {
             suitPiles.get(suit).add(card);
         } else {
@@ -176,7 +191,7 @@ public class Game {
         }
     }
 
-    private void addCardToPile(String card, String suit) {
+    public void addCardToPile(String card, String suit) {
         String number = String.valueOf(card.charAt(1));
         int upper = stringValueToInt(String.valueOf(suitPiles.get(suit).getLast().charAt(1))) + 1;
         int entryCard = stringValueToInt(number);
@@ -188,7 +203,7 @@ public class Game {
         }
     }
 
-    private int getNextPlayer(int currentPlayer) {
+    public int getNextPlayer(int currentPlayer) {
         if (currentPlayer == numPlayers - 1) {
             currentPlayer = 0;
         } else {
@@ -197,9 +212,8 @@ public class Game {
         return currentPlayer;
     }
 
-    private String getSuitByString(String shortSuit) {
+    public String getSuitByString(String shortSuit) {
         String suit = "";
-
         switch (shortSuit) {
             case "C":
                 suit = "Clubs";
@@ -214,11 +228,10 @@ public class Game {
                 suit = "Spades";
                 break;
         }
-
         return suit;
     }
 
-    private int stringValueToInt(String input) {
+    public int stringValueToInt(String input) {
         switch(input) {
             case "A":
                 return 1;
@@ -233,6 +246,73 @@ public class Game {
             default:
                 return Integer.parseInt(input);
         }
+    }
+
+    private boolean isGameOver() {
+        boolean isOver = false;
+        for (int i=0; i<numPlayers; i++) {
+            if (playerHands.get(i).size() == 0) {
+                isOver = true;
+            }
+        }
+        return isOver;
+    }
+
+    public void outputPiles() {
+        System.out.println("\n" + ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Piles:" + ConsoleColors.RESET);
+
+        if (suitPiles.get("Hearts") != null) {
+            System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Hearts: " + ConsoleColors.RESET + suitPiles.get("Hearts"));
+        }
+        if (suitPiles.get("Clubs") != null) {
+            System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "Clubs: " + ConsoleColors.RESET + suitPiles.get("Clubs"));
+        }
+        if (suitPiles.get("Diamonds") != null) {
+            System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + "Diamonds: " + ConsoleColors.RESET + suitPiles.get("Diamonds"));
+        }
+        if (suitPiles.get("Spades") != null) {
+            System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "Spades: " + ConsoleColors.RESET + suitPiles.get("Spades"));
+        }
+    }
+
+    public LinkedList<String> getPlayerHand(int player) {
+        return playerHands.get(player);
+    }
+
+    public void playCard(String card, int player) {
+        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Card Played: " + ConsoleColors.RESET + card);
+        removePlayerCard(card, player);
+        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "New Hand: " + ConsoleColors.RESET + getPlayerHand(player).toString());
+    }
+
+    public void removePlayerCard(String card, int player) {
+        playerHands.get(player).remove(card);
+    }
+
+    public LinkedList<String> getSuitPile(String suit) {
+        return suitPiles.get(suit);
+    }
+
+    public void showSeparator() {
+        System.out.println(separator);
+    }
+
+    public boolean isCardValid(String card) {
+        boolean isValid = true;
+        String suit = String.valueOf(card.charAt(0));
+        String number = String.valueOf(card.charAt(1));
+        String extra = card.substring(2);
+
+        if (!(suit.equals("C") || suit.equals("D") || suit.equals("H") || suit.equals("S")))
+            isValid = false;
+        else if (!(number.equals("A") || number.equals("2") || number.equals("3") || number.equals("4") ||
+                number.equals("5") || number.equals("6") || number.equals("7") || number.equals("8") ||
+                number.equals("9") || number.equals("X") || number.equals("Q") || number.equals("K")))
+            isValid = false;
+        else if (!extra.equals(""))
+            isValid = false;
+
+        return isValid;
     }
 
 }

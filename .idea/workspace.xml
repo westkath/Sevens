@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2716410b-82c5-4c13-baea-b8c9a433576f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ConsoleColors.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/ConsoleColors.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/TestingMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sevens/Sevens.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/TestingMain.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/sevens/Game.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/sevens/Sevens.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/utils/ConsoleColors.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/utils/NotEnoughCardsException.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
@@ -14,16 +18,25 @@
       <change afterPath="$PROJECT_DIR$/target/surefire-reports/GameTest.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-DeckTest.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-GameTest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/SevensTest.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/target/testing-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/target/testing-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Sevens.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Sevens.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/GameTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Sevens.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Sevens.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/GameTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/GameTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ConsoleColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/ConsoleColors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Deck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sevens/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/NotEnoughCardsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/NotEnoughCardsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Sevens.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DeckTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DeckTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SevensTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Deck.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/utils/Deck.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Game.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/NotEnoughCardsException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Sevens.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/DeckTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/DeckTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/GameTest.class" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -70,16 +83,16 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Sevens">
+  <component name="RunManager" selected="JUnit.DeckTest">
     <configuration name="Deck" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Deck" />
+      <option name="MAIN_CLASS_NAME" value="utils.Deck" />
       <module name="testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="Sevens" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Sevens" />
+      <option name="MAIN_CLASS_NAME" value="sevens.Sevens" />
       <module name="testing" />
       <option name="PROGRAM_PARAMETERS" value="6" />
       <method v="2">
@@ -105,10 +118,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SevensTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testing" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="GameTest" />
+      <option name="MAIN_CLASS_NAME" value="SevensTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -144,14 +157,14 @@
       <item itemvalue="Application.Sevens" />
       <item itemvalue="JUnit.DeckTest" />
       <item itemvalue="JUnit.DeckTest.testAllCardsDealt" />
-      <item itemvalue="JUnit.GameTest" />
+      <item itemvalue="JUnit.SevensTest" />
       <item itemvalue="Maven.testing [package]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Sevens" />
-        <item itemvalue="JUnit.GameTest" />
         <item itemvalue="JUnit.DeckTest" />
+        <item itemvalue="JUnit.SevensTest" />
+        <item itemvalue="Application.Sevens" />
         <item itemvalue="Application.Deck" />
         <item itemvalue="JUnit.DeckTest.testAllCardsDealt" />
       </list>

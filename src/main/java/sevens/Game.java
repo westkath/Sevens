@@ -43,7 +43,6 @@ public class Game {
 
         showSeparator();
         String playedCard = runFirstTurn(currentPlayer, playerHands.get(currentPlayer));
-        outputPiles();
         showSeparator();
         System.out.println();
 
@@ -98,6 +97,7 @@ public class Game {
             }
         }
 
+        outputPiles();
         return card;
     }
 

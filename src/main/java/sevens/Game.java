@@ -1,11 +1,21 @@
 package sevens;
 
+import io.ConsoleInput;
+import io.ConsoleOutput;
+import io.Input;
+import io.Output;
 import utils.ConsoleColors;
 import utils.Deck;
+import utils.Log;
 
 import java.util.*;
 
 public class Game {
+
+    private Input userInput;
+    private Input testInput;
+    private Output output;
+    private Log log;
 
     private int numPlayers;
     private ArrayList<LinkedList<String>> playerHands = new ArrayList<>();
@@ -14,13 +24,20 @@ public class Game {
             + "[Sevens]" + ConsoleColors.BLUE_BOLD + " ===============================" + ConsoleColors.RESET;
 
     public Game(int numPlayers) {
+
+        userInput = new ConsoleInput();
+        output = new ConsoleOutput();
+
         if (numPlayers <= 52 && numPlayers >= 1)
             this.numPlayers = numPlayers;
         else {
-            System.out.println(ConsoleColors.RED_BOLD_BRIGHT + numPlayers + ConsoleColors.RESET +
+            output.output(ConsoleColors.RED_BOLD_BRIGHT + numPlayers + ConsoleColors.RESET +
                     " is an invalid number of players to have! Exiting Game");
             throw new IllegalArgumentException(numPlayers + " is an invalid number of players to have! Exiting Game");
         }
+
+        this.log = Log.getInstance();
+        log.writeToLog("Game", "Starting Game...");
     }
 
     public void initialise() {
@@ -31,30 +48,34 @@ public class Game {
         for (int i=0; i<numPlayers; i++) {
             playerHands.add(deck.getPlayerHand(i));
         }
+
+        log.writeToLog("Game", "Initialising Game...");
     }
 
     public void playGame() {
+        log.writeToLog("Game", "Starting the Game...");
+
         int currentPlayer = whoHasFirstSeven();
 
         showSeparator();
-        System.out.println("Welcome to " + ConsoleColors.PURPLE_BOLD_BRIGHT + "Sevens!" + ConsoleColors.RESET);
+        output.output("Welcome to " + ConsoleColors.PURPLE_BOLD_BRIGHT + "Sevens!" + ConsoleColors.RESET);
         showSeparator();
-        System.out.println();
+        output.output();
 
         showSeparator();
         String playedCard = runFirstTurn(currentPlayer, playerHands.get(currentPlayer));
         showSeparator();
-        System.out.println();
+        output.output();
 
         removePlayerCard(playedCard, currentPlayer);
         currentPlayer = getNextPlayer(currentPlayer);
 
         while (!isGameOver()) {
-            System.out.println(separator);
+            output.output(separator);
             String card = runTurn(currentPlayer, playerHands.get(currentPlayer));
 
             if (card.equals("skip")) {
-                System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (currentPlayer+1) +
+                output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (currentPlayer+1) +
                         ConsoleColors.RESET + " has skipped a turn!");
             } else {
                 playerHands.get(currentPlayer).remove(card);
@@ -63,24 +84,25 @@ public class Game {
             currentPlayer = getNextPlayer(currentPlayer);
             outputPiles();
             showSeparator();
-            System.out.println();
+            output.output();
         }
 
         showSeparator();
-        System.out.println("Game Over! Player " + ConsoleColors.PURPLE_BOLD_BRIGHT + (currentPlayer) +
+        output.output("Game Over! Player " + ConsoleColors.PURPLE_BOLD_BRIGHT + (currentPlayer) +
                 ConsoleColors.RESET + " has won the game!");
         showSeparator();
+
+        log.writeToLog("Game", "Game Ended...");
     }
 
     private String runFirstTurn(int firstPlayer, LinkedList<String> firstHand) {
-        Scanner input = new Scanner(System.in);
         boolean hasPlayed = false;
 
-        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (firstPlayer+1) + ": " + ConsoleColors.RESET
+        output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (firstPlayer+1) + ": " + ConsoleColors.RESET
                 + "Play a Seven to Start the Game!");
-        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Hand: " + ConsoleColors.RESET + firstHand);
+        output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Hand: " + ConsoleColors.RESET + firstHand);
 
-        String card = input.nextLine();
+        String card = userInput.getInputString();
         String suit = String.valueOf(card.charAt(0));
 
         while (!hasPlayed) {
@@ -89,11 +111,11 @@ public class Game {
                 playCard(card, firstPlayer);
                 addSevenToPile(card, getSuitByString(suit));
             } else {
-                System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (firstPlayer+1) + ": " + ConsoleColors.RESET +
+                output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (firstPlayer+1) + ": " + ConsoleColors.RESET +
                         "Play a Seven to " + "Start the Game - " + ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET
                         + " is not a seven...");
-                System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Hand: " + ConsoleColors.RESET + firstHand);
-                card = input.nextLine();
+                output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Hand: " + ConsoleColors.RESET + firstHand);
+                card = userInput.getInputString();
             }
         }
 
@@ -105,16 +127,16 @@ public class Game {
         Scanner input = new Scanner(System.in);
         boolean hasPlayed = false;
 
-        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " + ConsoleColors.RESET +
+        output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " + ConsoleColors.RESET +
                 "Play a Card to Play the Game! Or Say Skip to Miss a Turn!");
-        System.out.println("Current Hand: " + hand);
-        String card = input.nextLine();
+        output.output("Current Hand: " + hand);
+        String card = userInput.getInputString();
 
         while (!isCardValid(card)) {
-            System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " + ConsoleColors.RESET +
+            output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " + ConsoleColors.RESET +
                     ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET + " is not a valid card. Enter one!");
-            System.out.println("Current Hand: " + hand);
-            card = input.nextLine();
+            output.output("Current Hand: " + hand);
+            card = userInput.getInputString();
         }
 
         String suitChar = String.valueOf(card.charAt(0));
@@ -124,9 +146,9 @@ public class Game {
             if (card.equalsIgnoreCase("skip")) {
                 return card;
             } else if (!isCardValid(card)) {
-                System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " + ConsoleColors.RESET +
+                output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " + ConsoleColors.RESET +
                         ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET + " is not a valid card. Enter one!");
-                System.out.println("Current Hand: " + hand);
+                output.output("Current Hand: " + hand);
                 card = input.nextLine();
             } else if (hand.contains(card) && (isValidMove(card, hand))) {
                 hasPlayed = true;
@@ -137,18 +159,18 @@ public class Game {
                     addCardToPile(card, getSuitByString(suitChar));
                 }
             } else {
-                System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " +
+                output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Player " + (player+1) + ": " +
                         ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET + " cannot be played. " +
                         "Play a Card to Play the Game! Or Say Skip to Miss a Turn!");
-                System.out.println("Current Hand: " + hand);
-                card = input.nextLine();
+                output.output("Current Hand: " + hand);
+                card = userInput.getInputString();
             }
         }
 
         return card;
     }
 
-    private int whoHasFirstSeven() {
+    public int whoHasFirstSeven() {
         boolean sevenFound = false;
         int player = 0;
         while (!sevenFound) {
@@ -261,7 +283,7 @@ public class Game {
         }
     }
 
-    private boolean isGameOver() {
+    public boolean isGameOver() {
         boolean isOver = false;
         for (int i=0; i<numPlayers; i++) {
             if (playerHands.get(i).size() == 0) {
@@ -272,19 +294,19 @@ public class Game {
     }
 
     public void outputPiles() {
-        System.out.println("\n" + ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Piles:" + ConsoleColors.RESET);
+        output.output("\n" + ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Piles:" + ConsoleColors.RESET);
 
         if (suitPiles.get("Hearts") != null) {
-            System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Hearts: " + ConsoleColors.RESET + suitPiles.get("Hearts"));
+            output.output(ConsoleColors.RED_BOLD_BRIGHT + "Hearts: " + ConsoleColors.RESET + suitPiles.get("Hearts"));
         }
         if (suitPiles.get("Clubs") != null) {
-            System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "Clubs: " + ConsoleColors.RESET + suitPiles.get("Clubs"));
+            output.output(ConsoleColors.GREEN_BOLD_BRIGHT + "Clubs: " + ConsoleColors.RESET + suitPiles.get("Clubs"));
         }
         if (suitPiles.get("Diamonds") != null) {
-            System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + "Diamonds: " + ConsoleColors.RESET + suitPiles.get("Diamonds"));
+            output.output(ConsoleColors.CYAN_BOLD_BRIGHT + "Diamonds: " + ConsoleColors.RESET + suitPiles.get("Diamonds"));
         }
         if (suitPiles.get("Spades") != null) {
-            System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "Spades: " + ConsoleColors.RESET + suitPiles.get("Spades"));
+            output.output(ConsoleColors.YELLOW_BOLD_BRIGHT + "Spades: " + ConsoleColors.RESET + suitPiles.get("Spades"));
         }
     }
 
@@ -293,9 +315,9 @@ public class Game {
     }
 
     public void playCard(String card, int player) {
-        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "Card Played: " + ConsoleColors.RESET + card);
+        output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Card Played: " + ConsoleColors.RESET + card);
         removePlayerCard(card, player);
-        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "New Hand: " + ConsoleColors.RESET + getPlayerHand(player).toString());
+        output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "New Hand: " + ConsoleColors.RESET + getPlayerHand(player).toString());
     }
 
     public void removePlayerCard(String card, int player) {
@@ -307,18 +329,17 @@ public class Game {
     }
 
     public void showSeparator() {
-        System.out.println(separator);
+        output.output(separator);
     }
 
     public boolean isCardValid(String card) {
         boolean isValid = true;
 
         if (card.length() < 2) {
-
             isValid = false;
+        } else if (card.equalsIgnoreCase("skip")) {
 
         } else {
-
             String suit = String.valueOf(card.charAt(0));
             String number = String.valueOf(card.charAt(1));
             String extra = card.substring(2);
@@ -331,10 +352,29 @@ public class Game {
                 isValid = false;
             else if (!extra.equals(""))
                 isValid = false;
-
         }
 
         return isValid;
+    }
+
+    public void setPlayerHand(int player, LinkedList<String> hand) {
+        playerHands.set(player, hand);
+    }
+
+    public void setUserInput(Input inputType){
+        userInput = inputType;
+    }
+
+    public void setUserOutput(Output outputType){
+        output = outputType;
+    }
+
+    public void setComputerInput(Input inputType){
+        testInput = inputType;
+    }
+
+    public Output getOutput() {
+        return output;
     }
 
 }

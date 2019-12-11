@@ -24,6 +24,9 @@ public class Deck {
             LinkedList<String> initialLinkedList = new LinkedList<>();
             players.add(initialLinkedList);
         }
+
+        Log log = Log.getInstance();
+        log.writeToLog("Deck", "Initialising Deck...");
     }
 
     public void dealSetNumberCards(int numCards) throws NotEnoughCardsException {
@@ -43,6 +46,9 @@ public class Deck {
                 tempDeck.remove(0);
             }
         }
+
+        Log log = Log.getInstance();
+        log.writeToLog("Deck", "Dealt Set Number of Cards...");
     }
 
     public void dealAllCards() {
@@ -57,6 +63,9 @@ public class Deck {
             }
             tempDeck.remove(0);
         }
+
+        Log log = Log.getInstance();
+        log.writeToLog("Deck", "Dealt All Cards...");
     }
 
     public void deal(String card, int player) {
@@ -67,6 +76,9 @@ public class Deck {
         List<String> tempList = Arrays.asList(deck);
         Collections.shuffle(tempList);
         deck = (String[]) tempList.toArray();
+
+        Log log = Log.getInstance();
+        log.writeToLog("Deck", "Shuffled Deck...");
     }
 
     public String[] getDeck() {

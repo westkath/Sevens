@@ -1,16 +1,41 @@
+import io.TestInput;
+import io.TestOutput;
 import junit.framework.TestCase;
 import org.junit.Test;
 import sevens.Game;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class SevensTest extends TestCase {
 
     Game game;
     int numPlayers = 5;
+    LinkedList<String> testHand;
+    LinkedList<String> testHand2;
+
+    TestInput testInput = new TestInput();
+    TestOutput testOutput = new TestOutput();
 
     @Override
     protected void setUp() {
         System.out.println("Starting up Game Test Case!");
         game = new Game(numPlayers);
+
+        testHand = new LinkedList<>();
+        testHand.add("C7");
+        testHand.add("D7");
+        testHand.add("H7");
+        testHand.add("S7");
+
+        testHand2 = new LinkedList<>();
+    }
+
+    private ArrayList<String> setupTest() {
+        testOutput.clear();
+        game.setUserOutput(testOutput);
+
+        return testOutput.getTestOutputs();
     }
 
     @Test
@@ -114,6 +139,53 @@ public class SevensTest extends TestCase {
         assertFalse(invalidSuitCard);
         assertFalse(invalidNumberCard);
         assertFalse(invalidExtraCard);
+    }
+
+    @Test
+    public void whoHasFirstSeven() {
+        game.initialise();
+        game.setPlayerHand(0, testHand);
+        int player = game.whoHasFirstSeven();
+
+        assertEquals(0, player);
+    }
+
+    @Test
+    public void testPlayCard() {
+        game.initialise();
+        game.setPlayerHand(0, testHand);
+
+        game.playCard("C7", 0);
+        int numCards = game.getPlayerHand(0).size();
+
+        game.playCard("", 0);
+
+        assertEquals(3, numCards);
+    }
+
+    @Test
+    public void testOutputPiles() {
+        game.initialise();
+        game.setPlayerHand(0, testHand);
+        game.playCard("H7", 0);
+        game.outputPiles();
+        String output = game.getOutput().getOutputMessage();
+
+        assertEquals("\n\u001B[1;95mCurrent Piles:\u001B[0m", output);
+    }
+
+    @Test
+    public void testGameOver() {
+        game.initialise();
+        game.setPlayerHand(0, testHand2);
+        boolean isOver = game.isGameOver();
+
+        assertTrue(isOver);
+    }
+
+    @Test
+    public void testOutputPiles() {
+
     }
 
     @Override

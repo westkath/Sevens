@@ -1,10 +1,15 @@
 import sevens.Sevens;
+import utils.Log;
 
 import java.util.Scanner;
 
 public class TestingMain {
 
     public static void main(String[] args) {
+
+        Log log = Log.getInstance();
+        log.writeToLog("TestingMain", "Starting Program...");
+
         Scanner in = new Scanner(System.in);
 
         System.out.println("What game would you like to play? ");

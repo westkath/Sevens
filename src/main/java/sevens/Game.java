@@ -191,7 +191,7 @@ public class Game {
         String suitChar = String.valueOf(card.charAt(0));
         String number = String.valueOf(card.charAt(1));
 
-        String suit = getSuitByString(suitChar);
+        String suit = getSuitByString(suitChar.toUpperCase());
 
         if (number.equals("7")) {
             validMove = true;
@@ -340,7 +340,7 @@ public class Game {
         } else if (card.equalsIgnoreCase("skip")) {
 
         } else {
-            String suit = String.valueOf(card.charAt(0));
+            String suit = String.valueOf(card.charAt(0)).toUpperCase();
             String number = String.valueOf(card.charAt(1));
             String extra = card.substring(2);
 

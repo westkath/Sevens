@@ -164,6 +164,14 @@ public class SevensTest extends TestCase {
     }
 
     @Test
+    public void testCardPlayed() {
+        game.initialise();
+        game.setPlayerHand(0, testHand);
+        game.playCard("H7", 0);
+
+    }
+
+    @Test
     public void testOutputPiles() {
         game.initialise();
         game.setPlayerHand(0, testHand);
@@ -184,8 +192,15 @@ public class SevensTest extends TestCase {
     }
 
     @Test
-    public void testOutputPiles() {
+    public void testOutputPilesMessage() {
+        game.initialise();
+        game.setPlayerHand(0, testHand);
+        game.playCard("H7", 0);
+        game.playCard("C7", 0);
+        game.outputPiles();
+        String pile = game.getOutput().getOutputMessage();
 
+        assertEquals("\n" + "\u001B[1;95mCurrent Piles:\u001B[0m", pile);
     }
 
     @Override

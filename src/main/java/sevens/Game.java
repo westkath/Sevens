@@ -13,7 +13,6 @@ import java.util.*;
 public class Game {
 
     private Input userInput;
-    private Input testInput;
     private Output output;
     private Log log;
 
@@ -359,18 +358,6 @@ public class Game {
 
     public void setPlayerHand(int player, LinkedList<String> hand) {
         playerHands.set(player, hand);
-    }
-
-    public void setUserInput(Input inputType){
-        userInput = inputType;
-    }
-
-    public void setUserOutput(Output outputType){
-        output = outputType;
-    }
-
-    public void setComputerInput(Input inputType){
-        testInput = inputType;
     }
 
     public Output getOutput() {

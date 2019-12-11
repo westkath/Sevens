@@ -1,10 +1,7 @@
-import io.TestInput;
-import io.TestOutput;
 import junit.framework.TestCase;
 import org.junit.Test;
 import sevens.Game;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class SevensTest extends TestCase {

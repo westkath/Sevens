@@ -102,8 +102,8 @@ public class Game {
                 + "Play a Seven to Start the Game!");
         output.output(ConsoleColors.PURPLE_BOLD_BRIGHT + "Current Hand: " + ConsoleColors.RESET + firstHand);
 
-        String card = userInput.getInputString();
-        String suit = String.valueOf(card.charAt(0));
+        String card = userInput.getInputString().toUpperCase();
+        String suit = String.valueOf(card.charAt(0)).toUpperCase();
 
         while (!hasPlayed) {
             if (firstHand.contains(card) && (card.equals("C7") || card.equals("D7") || card.equals("S7") || card.equals("H7"))) {
@@ -139,7 +139,7 @@ public class Game {
             card = userInput.getInputString();
         }
 
-        String suitChar = String.valueOf(card.charAt(0));
+        String suitChar = String.valueOf(card.charAt(0)).toUpperCase();
         String number = String.valueOf(card.charAt(1));
 
         while (!hasPlayed) {
@@ -163,7 +163,7 @@ public class Game {
                         ConsoleColors.RED_BOLD_BRIGHT + card + ConsoleColors.RESET + " cannot be played. " +
                         "Play a Card to Play the Game! Or Say Skip to Miss a Turn!");
                 output.output("Current Hand: " + hand);
-                card = userInput.getInputString();
+                card = userInput.getInputString().toUpperCase();
             }
         }
 
@@ -188,7 +188,7 @@ public class Game {
 
     private boolean isValidMove(String card, LinkedList<String> hand) {
         boolean validMove = false;
-        String suitChar = String.valueOf(card.charAt(0));
+        String suitChar = String.valueOf(card.charAt(0)).toUpperCase();
         String number = String.valueOf(card.charAt(1));
 
         String suit = getSuitByString(suitChar.toUpperCase());

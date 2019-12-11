@@ -2,8 +2,6 @@ package sevens;
 
 import io.ConsoleInput;
 import io.ConsoleOutput;
-import io.Input;
-import io.Output;
 import utils.ConsoleColors;
 import utils.Deck;
 import utils.Log;
@@ -12,8 +10,8 @@ import java.util.*;
 
 public class Game {
 
-    private Input userInput;
-    private Output output;
+    private ConsoleInput userInput;
+    private ConsoleOutput output;
     private Log log;
 
     private int numPlayers;
@@ -360,7 +358,7 @@ public class Game {
         playerHands.set(player, hand);
     }
 
-    public Output getOutput() {
+    public ConsoleOutput getOutput() {
         return output;
     }
 

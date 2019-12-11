@@ -14,9 +14,6 @@ public class SevensTest extends TestCase {
     LinkedList<String> testHand;
     LinkedList<String> testHand2;
 
-    TestInput testInput = new TestInput();
-    TestOutput testOutput = new TestOutput();
-
     @Override
     protected void setUp() {
         System.out.println("Starting up Game Test Case!");
@@ -29,13 +26,6 @@ public class SevensTest extends TestCase {
         testHand.add("S7");
 
         testHand2 = new LinkedList<>();
-    }
-
-    private ArrayList<String> setupTest() {
-        testOutput.clear();
-        game.setUserOutput(testOutput);
-
-        return testOutput.getTestOutputs();
     }
 
     @Test
@@ -168,7 +158,9 @@ public class SevensTest extends TestCase {
         game.initialise();
         game.setPlayerHand(0, testHand);
         game.playCard("H7", 0);
+        String played = game.getOutput().getOutputMessage();
 
+        assertEquals("\u001B[1;95mNew Hand: \u001B[0m[C7, D7, S7]", played);
     }
 
     @Test
